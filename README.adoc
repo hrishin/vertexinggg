@@ -1,4 +1,4 @@
-= REST API Level 0 - Eclipse Vert.x Boosterasdasd
+= REST API Level 0 - Eclipse Vert.x Boosterasdasdasdasd 1232
 
 IMPORTANT: This booster requires Java 8 JDK or greater and Maven 3.3.x or greater.asdasd
 
