@@ -1,6 +1,6 @@
 #!/usr/bin/groovy
 
-@Library('github.com/fabric8io/fabric8-pipeline-library@master')
+@Library('github.com/hrishin/fabric8-pipeline-library@maven-it-fix')
 def canaryVersion = "1.0.${env.BUILD_NUMBER}"
 def utils = new io.fabric8.Utils()
 def stashName = "buildpod.${env.JOB_NAME}.${env.BUILD_NUMBER}".replace('-', '_').replace('/', '_')
@@ -12,7 +12,13 @@ mavenNode {
   checkout scm
   if (utils.isCI()) {
 
-    mavenCI{}
+    mavenCI{
+      integrationTestCmd = "mvn org.apache.maven.plugins:maven-failsafe-plugin:integration-test \
+                            -Dnamespace.use.current=false -Dnamespace.use.existing=${utils.testNamespace()} \
+                            -Dit.test=*IT -DfailIfNoTests=false -DenableImageStreamDetection=true \
+                            org.apache.maven.plugins:maven-failsafe-plugin:verify \
+                            -P openshift-it"
+    }
     
   } else if (utils.isCD()) {
     /*
